@@ -1,0 +1,6 @@
+fastapi
+strawberry-graphql
+uvicorn
+joblib
+numpy
+scikit-learn
