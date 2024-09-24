@@ -1,0 +1,38 @@
+# app/services/model_service.py
+import joblib
+import numpy as np
+from models.input_data import InputData
+import os
+
+class ModelService:
+    def __init__(self):
+        # Carregar o modelo e objetos relacionados
+        self.model_path = os.path.join(os.path.dirname(__file__), '../../models')
+        print("Caminho do model", self.model_path)
+        self.model = joblib.load(os.path.join(self.model_path, 'modelo_treinado.pkl'))
+        self.label_encoder = joblib.load(os.path.join(self.model_path, 'label_encoder.pkl'))
+        self.scaler = joblib.load(os.path.join(self.model_path, 'scaler.pkl'))
+        self.resultado_encoder = joblib.load(os.path.join(self.model_path, 'resultado_encoder.pkl'))
+
+    def preprocess_input(self, data: InputData):
+        # Codificando os times
+        time_mandante_cod = self.label_encoder.transform([data.Mandante])[0]
+        time_visitante_cod = self.label_encoder.transform([data.Visitante])[0]
+
+        # Calculando a diferença de posição
+        diferenca_posicao = data.Posicao_Mandante - data.Posicao_Visitante
+
+        # Criando o array de entrada
+        input_data = np.array([[time_mandante_cod, time_visitante_cod, 
+                                data.Posicao_Mandante, data.Posicao_Visitante, 
+                                diferenca_posicao]])
+
+        # Escalonando os dados
+        input_data_scaled = self.scaler.transform(input_data)
+
+        return input_data_scaled
+
+    def predict(self, input_data_scaled):
+        # Fazer a predição
+        predicao = self.model.predict(input_data_scaled)
+        return self.resultado_encoder.inverse_transform(predicao)[0]
