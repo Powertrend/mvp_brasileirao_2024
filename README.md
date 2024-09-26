@@ -6,7 +6,7 @@
 
 O Predict é uma aplicação backend que embarca um modelo de machine learning treinado em um notebook google colab.
 
-O back-end da aplicação pode ser encontrado no seguinte repositório: [https://github.com/AlanAmaralCosta/lbfb-front-end](https://github.com/AlanAmaralCosta/lbfb-front-end)
+O front-end da aplicação pode ser encontrado no seguinte repositório: [https://github.com/Powertrend/front_end_mvp_brasileirao_2024](https://github.com/Powertrend/front_end_mvp_brasileirao_2024)
 
 ## Funcionalidades 🤖
 
